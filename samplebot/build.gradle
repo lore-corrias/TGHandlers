@@ -4,10 +4,6 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
-repositories {
-    mavenCentral()
-}
-
 jar {
     manifest {
         attributes 'Main-Class': 'io.github.justlel.samplebot.SampleBot'

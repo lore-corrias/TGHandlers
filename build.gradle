@@ -2,85 +2,70 @@ plugins {
     id 'java'
     id 'java-library'
     id 'maven-publish'
+    id 'signing'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
-group 'io.github.justlel'
-version '0.1.4'
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
 
-
-allprojects {
-    apply plugin: "maven-publish"
-    publishing {
-        repositories {
-            maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/justlel/TGHandlers")
-                credentials {
-                    username = System.getenv("GITHUB_ACTOR")
-                    password = System.getenv("GITHUB_TOKEN")
-                }
+publishing {
+    repositories {
+        maven {
+            name = "OSSRH"
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = findProperty("maven-username")
+                password = findProperty("maven-password")
             }
-            maven {
-                name = "OSSRH"
-                url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-                credentials {
-                    username = System.getenv("MAVEN_USERNAME")
-                    password = System.getenv("MAVEN_PASSWORD")
-                }
-            }
-
         }
-        publications {
-            maven(MavenPublication) {
-                afterEvaluate {
-                    if (name == "OSSRH")
-                        from components.java
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            afterEvaluate {
+                from components.java
+            }
+            pom {
+                groupId = findProperty("POM_GROUP_ID")
+                artifactId = findProperty("POM_ARTIFACT_ID")
+                version = findProperty("POM_VERSION")
+                name = findProperty("POM_NAME")
+                description = findProperty("POM_DESCRIPTION")
+                url = findProperty("POM_URL")
+                licenses {
+                    license {
+                        name = findProperty("POM_LICENSE")
+                        url = findProperty("POM_LICENSE_URL")
+                    }
                 }
-                versionMapping {
-                    usage('java-api') {
-                        fromResolutionOf('runtimeClasspath')
-                    }
-                    usage('java-runtime') {
-                        fromResolutionResult()
+                developers {
+                    developer {
+                        id = findProperty("POM_DEVELOPER")
                     }
                 }
-                pom {
-                    groupId = project(':').group
-                    version = project(':').version
-                    artifactId = project.name.toLowerCase()
-                    name = project(':').name
-                    description = "An implementation to pengrad's telegram-bot-api that adds some useful functionalities."
-                    licenses {
-                        license {
-                            name = "GNU General Public License v3.0"
-                            url = "https://www.gnu.org/licenses/gpl-3.0.txt"
-                        }
-                    }
-                    developers {
-                        developer {
-                            id = "justlel"
-                        }
-                    }
-                    scm {
-                        connection = 'scm:git:git://github.com/justlel/TGHandlers.git'
-                        developerConnection = 'scm:git:ssh://github.com/justlel/TGHandlers.git'
-                        url = 'https://github.com/justlel/TGHandlers'
-                    }
+                scm {
+                    connection = 'scm:git:git://github.com/justlel/TGHandlers.git'
+                    developerConnection = 'scm:git:ssh://github.com/justlel/TGHandlers.git'
+                    url = 'https://github.com/justlel/TGHandlers'
                 }
             }
         }
     }
 }
 
-repositories {
-    mavenCentral()
+subprojects {
+    repositories {
+        mavenCentral()
+    }
+
+    test {
+        useJUnit()
+    }
 }
 
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-}
-
-test {
-    useJUnitPlatform()
+signing {
+    useGpgCmd()
+    sign publishing.publications.mavenJava
 }
