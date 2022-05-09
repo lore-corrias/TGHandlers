@@ -24,9 +24,9 @@ publishing {
     }
     publications {
         mavenJava(MavenPublication) {
-            afterEvaluate {
-                from components.java
-            }
+            artifact tasks.shadowJar
+            artifact tasks.sourcesJar
+            artifact tasks.javadocJar
             pom {
                 groupId = findProperty("POM_GROUP_ID")
                 artifactId = findProperty("POM_ARTIFACT_ID")

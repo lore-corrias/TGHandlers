@@ -86,6 +86,10 @@
                             <goal>sign</goal>
                         </goals>
                         <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
                             <keyname>0x994B0AA7</keyname>
                             <passphraseServerId>0x994B0AA7</passphraseServerId>
                         </configuration>
