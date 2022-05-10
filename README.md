@@ -26,7 +26,7 @@ An integration to [pengrad's Telegram Bot API](https://github.com/pengrad/java-t
 implementation 'io.github.justlel:tghandlers:0.1.9'
 ```
 
-### Update Handling
+## Update Handling
 
 The most important integration to the base framework is the addiction of the UpdatesDispatcher.\
 To facilitate the management of different types of updates, the framework provides a way to register multiple
