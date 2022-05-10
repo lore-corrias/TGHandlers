@@ -11,6 +11,12 @@ java {
     withSourcesJar()
 }
 
+shadowJar {
+    archivesBaseName = 'tghandlers'
+    archiveClassifier.set('fullJar')
+    archiveVersion.set(findProperty("POM_VERSION"))
+}
+
 publishing {
     repositories {
         maven {
@@ -24,9 +30,11 @@ publishing {
     }
     publications {
         mavenJava(MavenPublication) {
-            artifact tasks.shadowJar
-            artifact tasks.sourcesJar
-            artifact tasks.javadocJar
+            artifacts {
+                shadowJar
+                javadocJar
+                sourcesJar
+            }
             pom {
                 groupId = findProperty("POM_GROUP_ID")
                 artifactId = findProperty("POM_ARTIFACT_ID")
@@ -55,14 +63,17 @@ publishing {
     }
 }
 
-subprojects {
-    repositories {
-        mavenCentral()
-    }
+repositories {
+    mavenCentral()
+}
 
-    test {
-        useJUnit()
-    }
+dependencies {
+    shadow localGroovy()
+    shadow gradleApi()
+
+    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.13.2'
+    implementation group: 'com.github.pengrad', name: 'java-telegram-bot-api', version: '6.0.1'
+    testImplementation group: 'junit', name: 'junit', version: '4.13'
 }
 
 signing {
