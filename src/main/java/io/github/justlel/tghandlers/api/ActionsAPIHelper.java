@@ -68,4 +68,8 @@ public class ActionsAPIHelper {
             throw new IllegalAccessException();
         telegramBot = telegramBotInstance;
     }
+
+    public static <T extends BaseRequest<T, R>, R extends BaseResponse> R executeRaw(T request) {
+        return getTelegramBotInstance().execute(request);
+    }
 }
