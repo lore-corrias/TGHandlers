@@ -4,11 +4,14 @@ plugins {
     id 'maven-publish'
     id 'signing'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'io.github.gradle-nexus.publish-plugin' version '1.1.0'
 }
+
 
 java {
     withJavadocJar()
     withSourcesJar()
+    shadowJar
 }
 
 shadowJar {
@@ -17,24 +20,23 @@ shadowJar {
     archiveVersion.set(findProperty("POM_VERSION"))
 }
 
-publishing {
+nexusPublishing {
     repositories {
-        maven {
-            name = "OSSRH"
-            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            credentials {
-                username = findProperty("maven-username")
-                password = findProperty("maven-password")
-            }
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            username = findProperty("maven-username")
+            password = findProperty("maven-password")
+            group = findProperty("POM_GROUP_ID")
+            version = findProperty("POM_VERSION")
         }
     }
+}
+
+publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifacts {
-                shadowJar
-                javadocJar
-                sourcesJar
-            }
+            from(components.java)
             pom {
                 groupId = findProperty("POM_GROUP_ID")
                 artifactId = findProperty("POM_ARTIFACT_ID")
@@ -54,9 +56,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:git://github.com/justlel/TGHandlers.git'
-                    developerConnection = 'scm:git:ssh://github.com/justlel/TGHandlers.git'
-                    url = 'https://github.com/justlel/TGHandlers'
+                    connection = findProperty("POM_SCM_CONNECION")
+                    developerConnection = findProperty("POM_SCM_DEV_CONNECTION")
+                    url = findProperty("POM_SCM_URL")
                 }
             }
         }
