@@ -1,10 +1,13 @@
 package io.github.justlel.tghandlers.models;
 
 import com.pengrad.telegrambot.model.Update;
+import io.github.justlel.tghandlers.models.handlers.GenericUpdateHandler;
+import io.github.justlel.tghandlers.models.handlers.SpecificUpdateHandler;
 
 /**
  * Interface to be implemented by all update handlers.
- * Its only method, {@link #handleUpdate}, will be called by {@link AbstractUpdateHandler}
+ * Its only method, {@link #handleUpdate}, will be called
+ * by a {@link SpecificUpdateHandler} or a {@link GenericUpdateHandler},
  * once the update has been dispatched to the correct handler.
  *
  * @author justlel

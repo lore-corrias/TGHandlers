@@ -43,8 +43,9 @@ import com.pengrad.telegrambot.model.Update;
 
 public class MyBot {
     public static void main(String[] args) {
-        // Create a new instance of the bot
+        // Create a new instance of the bot and add it to the API helper
         TelegramBot bot = new TelegramBot("TOKEN");
+        ActionsAPIHelper.setTelegramBotInstance(bot);
 
         // Create an instance of the dispatcher with the bot
         UpdatesDispatcher dispatcher = new UpdatesDispatcher();
@@ -89,8 +90,9 @@ public class CommandsHandler extends SpecificUpdatesHandler<String> {
 
 public class MyBot {
     public static void main(String[] args) {
-        // Create a new instance of the bot
+        // Create a new instance of the bot and add it to the API helper
         TelegramBot bot = new TelegramBot("TOKEN");
+        ActionsAPIHelper.setTelegramBotInstance(bot);
 
         // Create an instance of the dispatcher with the bot
         UpdatesDispatcher dispatcher = new UpdatesDispatcher();
@@ -205,8 +207,9 @@ import com.pengrad.telegrambot.response.BaseResponse;
 
 public class MyBot {
     public static void main(String[] args) {
-        // Create a new instance of the bot
+        // Create a new instance of the bot and add it to the API helper
         TelegramBot bot = new TelegramBot("TOKEN");
+        ActionsAPIHelper.setTelegramBotInstance(bot);
 
         // Create an instance of the dispatcher with the bot
         UpdatesDispatcher dispatcher = new UpdatesDispatcher();

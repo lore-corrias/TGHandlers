@@ -1,9 +1,12 @@
-package io.github.justlel.tghandlers.models;
+package io.github.justlel.tghandlers.models.dispatcher;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Update;
 import io.github.justlel.tghandlers.api.ActionsAPIHelper;
+import io.github.justlel.tghandlers.models.HandlerInterface;
+import io.github.justlel.tghandlers.models.handlers.GenericUpdateHandler;
+import io.github.justlel.tghandlers.models.handlers.SpecificUpdateHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
@@ -163,7 +166,7 @@ public class UpdatesDispatcher extends AbstractUpdateDispatcher {
      * @param updateType    The update type associated to the handler.
      * @param updateHandler The handler to be registered.
      */
-    public void registerUpdatesHandler(UpdateTypes updateType, AbstractUpdateHandler updateHandler) {
+    public void registerUpdatesHandler(UpdateTypes updateType, HandlerInterface updateHandler) {
         if (updateType instanceof MessageUpdateTypes) {
             this.messageTypeHandlers.putIfAbsent((MessageUpdateTypes) updateType, updateHandler);
         } else if (updateType instanceof GenericUpdateTypes) {
@@ -179,7 +182,7 @@ public class UpdatesDispatcher extends AbstractUpdateDispatcher {
      * @param updateTypes   The update types associated to the handler.
      * @param updateHandler The handler to be registered.
      */
-    public void registerUpdatesHandler(List<UpdateTypes> updateTypes, AbstractUpdateHandler updateHandler) {
+    public void registerUpdatesHandler(List<UpdateTypes> updateTypes, HandlerInterface updateHandler) {
         updateTypes.forEach(updateType -> registerUpdatesHandler(updateType, updateHandler));
     }
 
@@ -211,7 +214,7 @@ public class UpdatesDispatcher extends AbstractUpdateDispatcher {
      *
      * @param updateHandler The default handler to be registered.
      */
-    public void registerDefaultUpdatesHandler(AbstractUpdateHandler updateHandler) {
+    public void registerDefaultUpdatesHandler(HandlerInterface updateHandler) {
         if (defaultUpdatesHandler == null)
             defaultUpdatesHandler = updateHandler;
     }
@@ -246,7 +249,6 @@ public class UpdatesDispatcher extends AbstractUpdateDispatcher {
      * @throws IllegalAccessException If the TelegramBot instance for the class ActionsAPIHelper is already set. Should never happen.
      */
     public void runUpdateListener(TelegramBot telegramBot) throws IllegalAccessException {
-        ActionsAPIHelper.setTelegramBotInstance(telegramBot);
         telegramBot.setUpdatesListener(this);
     }
 

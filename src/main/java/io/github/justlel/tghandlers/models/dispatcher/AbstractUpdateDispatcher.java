@@ -1,4 +1,4 @@
-package io.github.justlel.tghandlers.models;
+package io.github.justlel.tghandlers.models.dispatcher;
 
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;

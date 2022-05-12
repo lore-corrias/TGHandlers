@@ -1,6 +1,8 @@
-package io.github.justlel.tghandlers.models;
+package io.github.justlel.tghandlers.models.handlers;
 
 import com.pengrad.telegrambot.model.Update;
+import io.github.justlel.tghandlers.models.HandlerInterface;
+import io.github.justlel.tghandlers.models.dispatcher.UpdatesDispatcher;
 
 import java.util.HashMap;
 import java.util.List;
