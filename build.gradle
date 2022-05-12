@@ -11,12 +11,11 @@ plugins {
 java {
     withJavadocJar()
     withSourcesJar()
-    shadowJar
 }
 
 shadowJar {
     archivesBaseName = 'tghandlers'
-    archiveClassifier.set('fullJar')
+    archiveClassifier.set(null)
     archiveVersion.set(findProperty("POM_VERSION"))
 }
 
@@ -36,7 +35,7 @@ nexusPublishing {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            from(components.java)
+            from components.java
             pom {
                 groupId = findProperty("POM_GROUP_ID")
                 artifactId = findProperty("POM_ARTIFACT_ID")
