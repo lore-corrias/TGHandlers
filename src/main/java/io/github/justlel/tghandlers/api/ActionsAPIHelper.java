@@ -90,6 +90,22 @@ public class ActionsAPIHelper {
     }
 
     /**
+     * Sends a message to the specified chat id, with the specified text, and eventually the specified keyboard markup
+     * The object sent is obtained via the {@link #getSendMessageObject} method.
+     *
+     * @param text           The text to be sent.
+     * @param chatId         The chat id to send the message to.
+     * @param keyboardMarkup The keyboard markup to be sent, null if no keyboard markup is to be sent.
+     * @return The {@link BaseResponse} from the Telegram API.
+     */
+    public static BaseResponse sendMessage(String text, long chatId, @Nullable InlineKeyboardMarkup keyboardMarkup) {
+        SendMessage sendMessage = getSendMessageObject(text, chatId);
+        if (keyboardMarkup != null)
+            sendMessage.replyMarkup(keyboardMarkup);
+        return executeRaw(sendMessage);
+    }
+
+    /**
      * Sends a message to the specified chat id, with the specified text.
      * The object sent is obtained via the {@link #getSendMessageObject} method.
      *
@@ -98,7 +114,7 @@ public class ActionsAPIHelper {
      * @return The {@link BaseResponse} from the Telegram API.
      */
     public static BaseResponse sendMessage(String text, long chatId) {
-        return executeRaw(getSendMessageObject(text, chatId));
+        return sendMessage(text, chatId, null);
     }
 
     /**
