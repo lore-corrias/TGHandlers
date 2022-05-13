@@ -15,7 +15,7 @@ An integration to [pengrad's Telegram Bot API](https://github.com/pengrad/java-t
     <dependency>
         <groupId>io.github.justlel</groupId>
         <artifactId>tghandlers</artifactId>
-        <version>0.3.7</version>
+        <version>0.3.8</version>
     </dependency>
 </dependencies>
 ```
@@ -23,7 +23,7 @@ An integration to [pengrad's Telegram Bot API](https://github.com/pengrad/java-t
 ### Gradle
 
 ```gradle
-implementation 'io.github.justlel:tghandlers:0.3.7'
+implementation 'io.github.justlel:tghandlers:0.3.8'
 ```
 
 ## Update Handling
